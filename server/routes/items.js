@@ -1,12 +1,12 @@
 const express = require("express");
- const recordRoutes = express.Router();
+ const itemRoutes = express.Router();
 const dbo = require("../DB/conn");
 const ObjectId = require("mongodb").ObjectId;
 
-recordRoutes.route("/record").get(function (req, res) {
+itemRoutes.route("/item").get(function (req, res) {
  let db_connect = dbo.getDb("employees");
  db_connect
-   .collection("records")
+   .collection("item")
    .find({})
    .toArray(function (err, result) {
      if (err) throw err;
@@ -14,18 +14,18 @@ recordRoutes.route("/record").get(function (req, res) {
    });
 });
  
-recordRoutes.route("/record/:id").get(function (req, res) {
+itemRoutes.route("/item/:id").get(function (req, res) {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect
-   .collection("records")
+   .collection("item")
    .findOne(myquery, function (err, result) {
      if (err) throw err;
      res.json(result);
    });
 });
  
-recordRoutes.route("/record/add").post(function (req, response) {
+itemRoutes.route("/item/add").post(function (req, response) {
  let db_connect = dbo.getDb();
  let myobj = {
    name: req.body.name,
@@ -34,32 +34,14 @@ recordRoutes.route("/record/add").post(function (req, response) {
    items: req.body.items,
    story: req.body.story,
  };
- db_connect.collection("records").insertOne(myobj, function (err, res) {
+ db_connect.collection("item").insertOne(myobj, function (err, res) {
    if (err) throw err;
    response.json(res);
  });
 });
  
-recordRoutes.route("/update/:id").post(function (req, response) {
- let db_connect = dbo.getDb();
- let myquery = { _id: ObjectId(req.params.id) };
- let newvalues = {
-   $set: {
-     name: req.body.name,
-     position: req.body.position,
-     level: req.body.level,
-   },
- };
- db_connect
-   .collection("records")
-   .updateOne(myquery, newvalues, function (err, res) {
-     if (err) throw err;
-     console.log("1 document updated");
-     response.json(res);
-   });
-});
  
-recordRoutes.route("/:id").delete((req, response) => {
+itemRoutes.route("/:id").delete((req, response) => {
  let db_connect = dbo.getDb();
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect.collection("records").deleteOne(myquery, function (err, obj) {
@@ -69,4 +51,4 @@ recordRoutes.route("/:id").delete((req, response) => {
  });
 });
  
-module.exports = recordRoutes;
+module.exports = itemRoutes;

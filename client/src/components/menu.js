@@ -1,85 +1,55 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
- 
-const Record = (props) => (
- <tr>
-   <td>{props.record.name}</td>
-   <td>{props.record.position}</td>
-   <td>{props.record.level}</td>
-   <td>
-     <Link className="btn btn-link" to={`/edit/${props.record._id}`}>Edit</Link> |
-     <button className="btn btn-link"
-       onClick={() => {
-         props.deleteRecord(props.record._id);
-       }}
-     >
-       Delete
-     </button>
-   </td>
- </tr>
-);
- 
+import React, { useState, useEffect } from "react";
+import styles from "./menu.module.css";
+import Encounter from "./Encounter"
+
 export default function Menu() {
- const [records, setRecords] = useState([]);
- 
- // This method fetches the records from the database.
- useEffect(() => {
-   async function getRecords() {
-     const response = await fetch(`http://localhost:5000/record/`);
- 
-     if (!response.ok) {
-       const message = `An error occurred: ${response.statusText}`;
-       window.alert(message);
-       return;
-     }
- 
-     const records = await response.json();
-     setRecords(records);
-   }
- 
-   getRecords();
- 
-   return;
- }, [records.length]);
- 
- // This method will delete a record
- async function deleteRecord(id) {
-   await fetch(`http://localhost:5000/${id}`, {
-     method: "DELETE"
-   });
- 
-   const newRecords = records.filter((el) => el._id !== id);
-   setRecords(newRecords);
- }
- 
- // This method will map out the records on the table
- function recordList() {
-   return records.map((record) => {
-     return (
-       <Record
-         record={record}
-         deleteRecord={() => deleteRecord(record._id)}
-         key={record._id}
-       />
-     );
-   });
- }
- 
- // This following section will display the table with the records of individuals.
- return (
-   <div>
-     <h3>Record List</h3>
-     <table className="table table-striped" style={{ marginTop: 20 }}>
-       <thead>
-         <tr>
-           <th>Name</th>
-           <th>Position</th>
-           <th>Level</th>
-           <th>Action</th>
-         </tr>
-       </thead>
-       <tbody>{recordList()}</tbody>
-     </table>
-   </div>
- );
+    const [encounters, setEncounters] = useState();
+    const [showModal, setShowModal] = useState(false);
+    const [randomNumber, setRandomNumber] = useState();
+
+
+    const openModal = () => {
+        const randomNumber = Math.floor(Math.random() * encounters.length);
+        setRandomNumber(randomNumber);
+        setShowModal(true);
+        console.log(showModal);
+        console.log(encounters);
+    };
+    const fetchData = async () => {
+        const newData = await fetch('/GetEncounters', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(res => res.json());
+        setEncounters(newData.result)
+    }
+
+    useEffect(() => {
+    
+        fetchData();
+        console.log(encounters);
+    }, [encounters]);
+
+
+    return (
+        <div className={styles.background} >
+            <section className={styles.grid}>
+                <div>
+                    <h2>Past aventures</h2>
+                </div>
+
+                <div>
+                </div>
+                <div>
+                    <h2>Monster Encounter </h2>
+                    <div>
+                        <button onClick={openModal}>Generate Encounter</button>
+                        {showModal ? <Encounter setShowModal={setShowModal} /> : null}
+                    </div>
+                </div>
+            </section>
+        </div>
+    );
 }
