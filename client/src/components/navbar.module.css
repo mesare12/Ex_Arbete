@@ -11,6 +11,20 @@
   width: 100%;
   height: 50px;
 }
+.menu {
+    position: absolute;
+    background-color: aliceblue;
+    list-style-type: none;
+    right: 0px;
+    margin: 5px 0;
+    padding: 0;
+    border: 1px solid grey;
+    width: 150px;
+}
+.dropdown {
+    width: 100%;
+    position: relative;
+}
 @media (max-width: 600px) {
   .header {
     width: 80%;

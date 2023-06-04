@@ -1,6 +1,5 @@
 const express = require("express");
 const sqlOperation = require('./DB/SqlOperation');
-const Encounter = require('./DB/Models/Encounter')
 const app = express();
 const cors = require("cors");
 require("dotenv").config({ path: "./config.env" });
@@ -18,44 +17,58 @@ app.listen(port, () => {
   });
   console.log(`Server is running on port: ${port}`);
 });
-app.get('/GetMonsters', function (req, res) {
+app.get('/GetMonsters', function (req, response) {
     console.log('Called');
-    const response = sqlOperation.getMonsters().then(res => {
+    const re = sqlOperation.getMonsters().then(res => {
         return res.recordset;
     });
     res.send(response)
 });
-app.get('/GetItems', function (req, res) {
+app.get('/GetItems', function (req, response) {
     console.log('Called');
-    const response = sqlOperation.getItems().then(res => {
+    const re = sqlOperation.getItems().then(res => {
         return res.recordset;
     });
     res.send(response)
 });
-app.get('/GetActions', function (req, res) {
+app.get('/GetActions', function (req, response) {
     console.log('Called');
-    const response = sqlOperation.getActions().then(res => {
+    const re = sqlOperation.getActions().then(res => {
         return res.recordset;
     });
     res.send(response)
 });
-app.get('/GetEncounters', function (res) {
-    console.log('Called');
-    const response = sqlOperation.getEncounters().then(res => {
-        console.log(res.recordset);
-        return res.recordset;
+app.get('/GetEncounters', function (req, response) {
+    sqlOperation.getEncounters().then(res => {
+        response.send(res);
     });
-    console.log(res);
-    res.send(response)
-    return response;
 });
-app.post('/GetEncounterID', function (req, res) {
-    console.log('Called');
-    const response = sqlOperation.getOneEncounter(req.body).then(res => {
-        return res.recordset;
+app.post('/GetEncounterID', function (req, response) {
+    const EncounterID = req.body
+    sqlOperation.getOneEncounter(EncounterID).then(res => {
+        response.send(res.recordset)
     });
-    res.send(response)
+
 });
-sqlOperation.getEncounters().then(res => {
-    console.log(res.recordset);
-})
+app.post('/Login', function (req, response) {
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return response.status(400).json({
+            message: "Username or Password not present",
+        })
+    }
+    else {
+        sqlOperation.login(username, password).then(res => {
+            if (res.recordset.length > 0) {
+                response.send(res.recordset)
+            }
+            else {
+                response.send({ message: 'There was no user' });
+            }
+        });
+    }
+});
+//sqlOperation.getOneEncounter(3).then(res => {
+//    console.log(res.recordset);
+//    //response.send(res.recordset)
+//});
