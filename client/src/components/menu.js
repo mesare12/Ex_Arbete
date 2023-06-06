@@ -7,12 +7,11 @@ export default function Menu() {
     const [encounters, setEncounters] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [randomNumber, setRandomNumber] = useState();
-    const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     const openModal = () => {
-        const rnd = Math.floor(Math.random() * encounters.recordset.length);
-        setRandomNumber(encounters.recordset[rnd]);
+        const rnd = Math.floor(Math.random() * encounters.length);
+        setRandomNumber(encounters[rnd]);
         setShowModal(true);
     };
 
@@ -24,8 +23,6 @@ export default function Menu() {
              fetch('http://localhost:5000/GetEncounters').then(res => res.json())
                 .then((result) => {
                     setEncounters(result)
-                }, (error) => {
-                    setError(error);
                 })
         }
         fetchData();
@@ -39,18 +36,9 @@ export default function Menu() {
         <div className={styles.background} >
             <section className={styles.grid}>
                 <div>
-                    <h2>Past adventures</h2>
+                    <h2>Adventure</h2>
                 </div>
-
-                <div>
-                    {!isLoading && (
-                        <ul>
-                            {encounters.recordset.map(encounter => (
-                                <li key={encounter.EncounterID}>{encounter.EncounterID}</li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+            
                 <div>
                     <h2>Monster Encounter </h2>
                     <div>

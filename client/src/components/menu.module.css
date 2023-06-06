@@ -4,17 +4,14 @@
     background-position: center;
     background-size: cover;
     height: 100vh;
+    display: flex;
 }
 .grid{
     display: grid;
-    background-color: rgba(245, 245, 220, 0.317);
-    margin: 15px;
-    height: 500px;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-@media (max-width: 600px){
-
-    .grid{
-        grid-template-columns: 1fr 1fr;
-    }
+    background-color: rgba(245, 245, 220, 0.600);
+    padding: 5px;
+    margin: auto;
+    width: 60%;
+    height: 450px;
+    grid-template-columns: 1fr 1fr;
 }

@@ -1,7 +1,5 @@
-class Monster
-{
-    constructor(MonsterID, Title, Alignement, Sense, Armor_Class, Languages, HP, Strength, Decterity, Constitution, Intelligence, Wisdom, Charisma, StatMultiplierFK, SpeedFK,SpeedFK2, Proficiency_Bonus, Resistance, Immunity, IMG, Description)
-    {
+class Monster {
+    constructor(MonsterID, Title, Alignement, Sense, Armor_Class, Languages, HP, Strength, Decterity, Constitution, Intelligence, Wisdom, Charisma, StatMultiplierFK, SpeedFK, SpeedFK2, Proficiency_Bonus, Resistance, Immunity, IMG, Description) {
         this.MonsterID = MonsterID;
         this.Title = Title;
         this.Alignement = Alignement;
@@ -24,4 +22,5 @@ class Monster
         this.IMG = IMG;
         this.Description = Description;
     }
-}
+};
+export default Monster;
