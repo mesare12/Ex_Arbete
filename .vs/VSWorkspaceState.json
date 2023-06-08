@@ -6,9 +6,8 @@
     "\\client\\src\\components",
     "\\server",
     "\\server\\DB",
-    "\\server\\DB\\Models",
     "\\server\\routes"
   ],
-  "SelectedNode": "\\server\\server.js",
+  "SelectedNode": "\\client\\src\\App.js",
   "PreviewInSolutionExplorer": false
 }

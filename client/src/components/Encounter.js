@@ -60,12 +60,6 @@ function Encounter(props) {
                     </section>
                     <section className={styles.skills}>
                         <section>
-                            <h1>skill</h1>
-                            <div >
-                              
-                            </div>
-                        </section>
-                        <section>
                             <h1>Actions</h1>
                             {
                                 skill.map(s => (
