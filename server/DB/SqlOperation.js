@@ -156,11 +156,10 @@ const AddSkillSet = async (id, skill) => {
 const createEncounter = async (encounter) => {
     try {
         let pool = await SQL.connect(config);
-        let string = 'INSERT INTO [dbo].[Encounters] (';
-        let values = 'VALUES (';
-        string = string + 'SkillFK, MonsterFK, ClassRating) ';
         let monster = parseInt(encounter.MonsterFK) + 1;
-        values = values + `${skill},${monster}, ${encounter.ClassRating})`
+
+        let string = 'INSERT INTO [dbo].[Encounters] (SkillFK, MonsterFK, ClassRating)';
+        let values = `VALUES (${encounter.SkillFK},${monster}, ${encounter.ClassRating})`;
         let encounters = pool.request().query(string + values);
         return encounters
     }
