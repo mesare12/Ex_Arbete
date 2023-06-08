@@ -159,7 +159,6 @@ const createEncounter = async (encounter) => {
         let string = 'INSERT INTO [dbo].[Encounters] (';
         let values = 'VALUES (';
         string = string + 'SkillFK, MonsterFK, ClassRating) ';
-        let skill = parseInt(encounter.SkillFK) + 1;
         let monster = parseInt(encounter.MonsterFK) + 1;
         values = values + `${skill},${monster}, ${encounter.ClassRating})`
         let encounters = pool.request().query(string + values);
