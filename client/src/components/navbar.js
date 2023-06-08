@@ -11,6 +11,9 @@ export default function Navbar() {
     const dropdown = () => {
         isOpen(!open)
     }
+    const close = () => {
+        isOpen(!open)
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -51,13 +54,8 @@ export default function Navbar() {
                     <div className={styles.dropdown} id="navbarSupportedContent">
                         <ul className={styles.menu}>
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/create">
+                                <NavLink className="nav-link" onClick={close} to="/create">
                                     Create new Encounter
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink className="nav-link" to="/itemCreate">
-                                    Create Item
                                 </NavLink>
                             </li>
                         </ul>

@@ -13,6 +13,7 @@ export default function Create() {
         ActionsFK: null,
     });
     const [monsterForm, setMonsterForm] = useState({
+        MonsterID: null,
         Title: null,
         Alignement: null,
         Sense: null,
@@ -81,6 +82,8 @@ export default function Create() {
             if (index === -1) {
                 index++
             }
+            let amount = monsters.length;
+            setMonsterForm({ MonsterID:  amount})
             setIMG(monsters[index])
             let imgstring = `{ "IMG" : "${monsters[index].IMG}" }`;
             let IMG = JSON.parse(imgstring);
@@ -89,12 +92,14 @@ export default function Create() {
             setMonsterForm((prev) => {
                 return { ...prev, ...IMG }
             })
-
-            let monsterString = `{ "MonsterFK" : "${monsters.length + 1}" }`;
+            let int = (monsters.length + 1);
+            let monsterString = `{ "MonsterFK" : "${monsters.length}" }`;
             let mon = JSON.parse(monsterString)
             setForm((prev) => {
                 return {...prev, ...mon}
             })
+            console.log(monsters.length + 1);
+            console.log(int);
         }
         else {
             return setForm((prev) => {
@@ -104,6 +109,7 @@ export default function Create() {
     
     }
     function updateMon(value) {
+
         return setMonsterForm((prev) => {
             return { ...prev, ...value };
         })

@@ -145,7 +145,7 @@ const AddSkillSet = async (id, skill) => {
         let string = 'INSERT INTO [dbo].[SkillSet] (ID, SkillFK) ';
         let values = 'VALUES ';
         let querystring = string + values;
-        let s = `(${id}, ${skill})`
+        let s = `(${id++}, ${skill})`
         querystring = querystring + s;
         pool.request().query(querystring);
         return 'OK'
@@ -158,10 +158,10 @@ const createEncounter = async (encounter) => {
         let pool = await SQL.connect(config);
         let string = 'INSERT INTO [dbo].[Encounters] (';
         let values = 'VALUES (';
-        console.log(encounter);
         string = string + 'SkillFK, MonsterFK, ClassRating) ';
-        values = values + `${encounter.SkillFK},${encounter.MonsterFK}, ${encounter.ClassRating})`
-
+        let skill = parseInt(encounter.SkillFK) + 1;
+        let monster = parseInt(encounter.MonsterFK) + 1;
+        values = values + `${skill},${monster}, ${encounter.ClassRating})`
         let encounters = pool.request().query(string + values);
         return encounters
     }
@@ -172,7 +172,8 @@ const createEncounter = async (encounter) => {
 const createMonster = async (monster) => {
     try {
         let pool = await SQL.connect(config);
-        let string = `INSERT INTO [dbo].[Monster] ([Title]
+        let string = `INSERT INTO [dbo].[Monster] (MonsterID
+            ,[Title]
             , [Alignement]
             , [Sense]
             , [Armor_Class]
@@ -188,12 +189,15 @@ const createMonster = async (monster) => {
             , [SpeedFK2]
             , [IMG]
             , [Description])`;
-        let values = `VALUES ('${monster.Title}', '${monster.Alignement}', '${monster.Sense}', ${monster.Armor_Class},
+        let ID = parseInt(monster.MonsterID) + 1;
+        if (monster.SpeedFK2 == undefined) {
+            monster.SpeedFK2 = null;
+        }
+        let values = `VALUES (${ID},'${monster.Title}', '${monster.Alignement}', '${monster.Sense}', ${monster.Armor_Class},
 '${monster.Languages}', ${monster.HP}, ${monster.Strength}, ${monster.Dexterity} , ${monster.Constitution}
 , ${monster.Intelligence}, ${monster.Wisdom}, ${monster.Charisma}, ${monster.SpeedFK}
 , ${monster.SpeedFK2}, '${monster.IMG}', '${monster.Description}')`;
         let queryString = string + values;
-        console.log(queryString);
         pool.request().query(queryString);
     } catch (e) {
         console.log(e);

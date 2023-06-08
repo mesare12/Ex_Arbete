@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 // We import all the components we need in our app
 import Navbar from "./components/navbar";
 import Menu from "./components/menu";
-import Edit from "./components/edit";
+import ItemCreate from "./components/ItemCreate";
 import Create from "./components/create";
 import Login from './components/Login';
 import useToken from './components/useToken'
@@ -24,7 +24,7 @@ return (
 
         <Routes>
             <Route exact path="/" element={<Menu />} />
-            <Route path="/edit/:id" element={<Edit />} />
+            <Route path="/ItemCreate" element={<ItemCreate />} />
             <Route path="/create" element={<Create />} />
         </Routes>
     </div>

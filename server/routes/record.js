@@ -4,7 +4,7 @@ const dbo = require("../DB/conn");
 const ObjectId = require("mongodb").ObjectId;
 
 recordRoutes.route("/record").get(function (req, res) {
- let db_connect = dbo.getDb("employees");
+ let db_connect = dbo.getDb("Examen");
  db_connect
    .collection("records")
    .find({})
@@ -15,7 +15,7 @@ recordRoutes.route("/record").get(function (req, res) {
 });
  
 recordRoutes.route("/record/:id").get(function (req, res) {
- let db_connect = dbo.getDb();
+    let db_connect = dbo.getDb("Examen");
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect
    .collection("records")
@@ -26,7 +26,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 });
  
 recordRoutes.route("/record/add").post(function (req, response) {
- let db_connect = dbo.getDb();
+    let db_connect = dbo.getDb("Examen");
  let myobj = {
    name: req.body.name,
    position: req.body.position,
@@ -41,7 +41,7 @@ recordRoutes.route("/record/add").post(function (req, response) {
 });
  
 recordRoutes.route("/update/:id").post(function (req, response) {
- let db_connect = dbo.getDb();
+    let db_connect = dbo.getDb("Examen");
  let myquery = { _id: ObjectId(req.params.id) };
  let newvalues = {
    $set: {
@@ -60,7 +60,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
 });
  
 recordRoutes.route("/:id").delete((req, response) => {
- let db_connect = dbo.getDb();
+    let db_connect = dbo.getDb("Examen");
  let myquery = { _id: ObjectId(req.params.id) };
  db_connect.collection("records").deleteOne(myquery, function (err, obj) {
    if (err) throw err;
